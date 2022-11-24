@@ -23,10 +23,14 @@ class _RegisterState extends State<Register> {
               children: [
                 Text(
                   'Register',
-                  style: TextStyle(fontSize: 30, letterSpacing: 20),
+                  style: TextStyle(
+                    fontSize: 30,
+                    letterSpacing: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 30,
                 ),
                 TextFormField(
                   //controller: txtEmail,
@@ -107,7 +111,7 @@ class _RegisterState extends State<Register> {
                   ),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
                 Container(
                   width: double.infinity,

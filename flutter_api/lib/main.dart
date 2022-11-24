@@ -41,10 +41,14 @@ class _MyHomePageState extends State<MyHomePage> {
               children: [
                 Text(
                   'LOGIN',
-                  style: TextStyle(fontSize: 30, letterSpacing: 20),
+                  style: TextStyle(
+                    fontSize: 30,
+                    letterSpacing: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 30,
                 ),
                 TextFormField(
                   //controller: txtEmail,
@@ -98,7 +102,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
                 Container(
                   width: double.infinity,

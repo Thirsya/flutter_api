@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_api/register.dart';
 
+import 'home.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -108,11 +110,26 @@ class _MyHomePageState extends State<MyHomePage> {
                       onPressed: () {
                         Navigator.push(
                           context,
+                          MaterialPageRoute(builder: (context) => const Home()),
+                        );
+                      },
+                      child: Text('Login')),
+                ),
+                Container(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xFF0E5E6F),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10))),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
                           MaterialPageRoute(
                               builder: (context) => const Register()),
                         );
                       },
-                      child: Text('Login')),
+                      child: Text('Register')),
                 )
               ],
             ),

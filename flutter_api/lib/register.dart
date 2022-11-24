@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'main.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -117,6 +118,22 @@ class _RegisterState extends State<Register> {
                               borderRadius: BorderRadius.circular(10))),
                       onPressed: () {},
                       child: Text('Register')),
+                ),
+                Container(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xFF0E5E6F),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10))),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const MyApp()),
+                        );
+                      },
+                      child: Text('Login')),
                 )
               ],
             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'main.dart';
+import 'network/api.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -9,6 +10,26 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  doRegister() async {
+    final name = txtName.text;
+    final email = txtEmail.text;
+    final password = txtPassword.text;
+    const deviceId = "12345";
+    final response =
+        await HttpHelper().register(name, email, password, deviceId);
+    print(response.body);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => MyHomePage()),
+    );
+  }
+
+  final TextEditingController txtName = TextEditingController(text: 'test');
+  final TextEditingController txtEmail =
+      TextEditingController(text: 'test@mail.com');
+  final TextEditingController txtPassword =
+      TextEditingController(text: 'password');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +54,7 @@ class _RegisterState extends State<Register> {
                   height: 30,
                 ),
                 TextFormField(
-                  //controller: txtEmail,
+                  controller: txtEmail,
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.symmetric(
                         vertical: 10, horizontal: 17),
@@ -60,7 +81,7 @@ class _RegisterState extends State<Register> {
                   height: 10,
                 ),
                 TextFormField(
-                  //controller: txtEmail,
+                  controller: txtEmail,
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.symmetric(
                         vertical: 10, horizontal: 17),
@@ -87,7 +108,7 @@ class _RegisterState extends State<Register> {
                   height: 10,
                 ),
                 TextFormField(
-                  //controller: txtEmail,
+                  controller: txtEmail,
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.symmetric(
                         vertical: 10, horizontal: 17),
@@ -120,7 +141,9 @@ class _RegisterState extends State<Register> {
                           backgroundColor: Color(0xFF0E5E6F),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10))),
-                      onPressed: () {},
+                      onPressed: () {
+                        doRegister();
+                      },
                       child: Text('Register')),
                 ),
                 Container(

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_api/register.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'home.dart';
+import 'network/api.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,6 +29,33 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final txtEmail = TextEditingController(text: 'superadmin@gmail.com');
+  final txtPassword = TextEditingController(text: 'password');
+
+  Future doLogin() async {
+    final email = txtEmail.text;
+    final password = txtPassword.text;
+    const deviceId = "12345";
+    final response = await HttpHelper().login(email, password, deviceId);
+    print(response.body);
+
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    const key = 'token';
+    final value = pref.get(key);
+    final token = value;
+    if (token == null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => MyHomePage()),
+      );
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Home()),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   height: 30,
                 ),
                 TextFormField(
-                  //controller: txtEmail,
+                  controller: txtEmail,
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.symmetric(
                         vertical: 10, horizontal: 17),
@@ -78,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   height: 10,
                 ),
                 TextFormField(
-                  //controller: txtEmail,
+                  controller: txtPassword,
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.symmetric(
                         vertical: 10, horizontal: 17),
@@ -112,10 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10))),
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const Home()),
-                        );
+                        doLogin();
                       },
                       child: Text('Login')),
                 ),

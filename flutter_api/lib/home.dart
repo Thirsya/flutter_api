@@ -80,6 +80,44 @@ class _HomeState extends State<Home> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 17),
+                          filled: true,
+                          fillColor: Color(0xFFF2DEBA),
+                          labelText: 'Masukkan data',
+                          labelStyle: const TextStyle(
+                            color: Color(0xFF3A8891),
+                            fontWeight: FontWeight.bold,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                width: 3, color: Color(0xFF3A8891)),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                width: 3, color: Color(0xFF3A8891)),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: ElevatedButton(
+                          onPressed: () {}, child: const Text('Tambah')),
+                    ),
+                  ],
+                ),
                 const SizedBox(
                   height: 10,
                 ),
@@ -108,14 +146,49 @@ class _HomeState extends State<Home> {
                         itemCount: listCategory.length,
                         itemBuilder: (context, index) {
                           var kategori = listCategory[index];
-                          return ListTile(
-                              title: Text(
-                            kategori.name,
-                            style: const TextStyle(
-                                fontFamily: 'Nunito',
-                                fontWeight: FontWeight.bold),
-                            textAlign: TextAlign.center,
-                          ));
+                          return Dismissible(
+                              key: UniqueKey(),
+                              background: Container(
+                                color: Colors.blue,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(15),
+                                  child: Row(
+                                    children: const <Widget>[
+                                      Icon(Icons.favorite, color: Colors.white),
+                                      Text('Edit',
+                                          style:
+                                              TextStyle(color: Colors.white)),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              secondaryBackground: Container(
+                                color: Colors.red,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(15),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: const <Widget>[
+                                      Icon(Icons.delete, color: Colors.white),
+                                      Text('Hapus',
+                                          style:
+                                              TextStyle(color: Colors.white)),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              onDismissed: (DismissDirection direction) {
+                                if (direction == DismissDirection.startToEnd) {
+                                } else {}
+                              },
+                              child: ListTile(
+                                  title: Text(
+                                kategori.name,
+                                style: const TextStyle(
+                                    fontFamily: 'Nunito',
+                                    fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.center,
+                              )));
                         }))
               ],
             ),

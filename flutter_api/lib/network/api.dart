@@ -6,7 +6,7 @@ import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HttpHelper {
-  final String _baseUrl = 'http://192.168.1.27:8000/api/';
+  final String _baseUrl = 'http://192.168.1.15:8000/api/';
   final String token = '';
 
   Future<Response> login(String email, String password, String deviceId) async {

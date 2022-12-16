@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_api/register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'home.dart';
 import 'network/api.dart';
 
@@ -142,6 +141,10 @@ class _MyHomePageState extends State<MyHomePage> {
                               borderRadius: BorderRadius.circular(10))),
                       onPressed: () {
                         doLogin();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const Home()),
+                        );
                       },
                       child: Text('Login')),
                 ),

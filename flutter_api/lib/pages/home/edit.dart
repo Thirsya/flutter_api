@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../home.dart';
+
 class Edit extends StatefulWidget {
   const Edit({super.key});
 
@@ -73,7 +75,26 @@ class _EditState extends State<Edit> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10))),
                         onPressed: () {},
-                        child: const Text('Tambah')),
+                        child: const Text('Ubah')),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF0E5E6F),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10))),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Home()),
+                          );
+                        },
+                        child: const Text('Kembali')),
                   ),
                 ],
               )),

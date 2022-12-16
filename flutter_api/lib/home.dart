@@ -81,6 +81,9 @@ class _HomeState extends State<Home> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                const SizedBox(
+                  height: 10,
+                ),
                 Row(
                   children: [
                     Expanded(
@@ -91,7 +94,7 @@ class _HomeState extends State<Home> {
                               vertical: 10, horizontal: 17),
                           filled: true,
                           fillColor: Color(0xFFF2DEBA),
-                          labelText: 'Masukkan data',
+                          labelText: 'Masukkan Task Baru',
                           labelStyle: const TextStyle(
                             color: Color(0xFF3A8891),
                             fontWeight: FontWeight.bold,
@@ -115,7 +118,12 @@ class _HomeState extends State<Home> {
                     Expanded(
                       flex: 1,
                       child: ElevatedButton(
-                          onPressed: () {}, child: const Text('Tambah')),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Color(0xFF0E5E6F),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10))),
+                          onPressed: () {},
+                          child: const Text('Tambah')),
                     ),
                   ],
                 ),

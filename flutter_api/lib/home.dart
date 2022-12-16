@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_api/pages/home/edit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'main.dart';
 import 'models/category_models.dart';
@@ -179,6 +180,11 @@ class _HomeState extends State<Home> {
                               ),
                               onDismissed: (DismissDirection direction) {
                                 if (direction == DismissDirection.startToEnd) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => const Edit()),
+                                  );
                                 } else {}
                               },
                               child: ListTile(

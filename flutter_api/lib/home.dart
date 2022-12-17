@@ -9,7 +9,9 @@ import 'network/api.dart';
 import 'network/crud_helper.dart';
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  const Home({
+    super.key,
+  });
 
   @override
   State<Home> createState() => _HomeState();
@@ -241,16 +243,21 @@ class _HomeState extends State<Home> {
                                   ),
                                 ),
                               ),
-                              onDismissed: (DismissDirection direction) {
+                              onDismissed: (DismissDirection direction) async {
                                 if (direction == DismissDirection.startToEnd) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Edit(
-                                              category: categories[index],
-                                            )),
-                                  );
-                                } else {}
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return Edit(
+                                            category: categories[index]);
+                                      });
+                                } else {
+                                  final response = await CrudHelper()
+                                      .deleteCategori(categories[index]);
+                                  print(response.body);
+                                  // Navigator.pushNamed(context, "/main");
+
+                                }
                               },
                               child: Container(
                                 height: 100,

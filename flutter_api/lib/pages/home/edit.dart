@@ -1,20 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_api/network/crud_helper.dart';
 
 import '../../home.dart';
+import '../../models/category_models.dart';
 
 class Edit extends StatefulWidget {
-  const Edit({super.key});
+  Category category;
+  Edit({
+    Key? key,
+    required this.category,
+  }) : super(key: key);
 
   @override
   State<Edit> createState() => _EditState();
 }
 
 class _EditState extends State<Edit> {
-  TextEditingController? controller;
+  final TextEditingController txtEditCategory = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    txtEditCategory.text = widget.category.name;
+  }
+
+  doEditCategory() async {
+    final name = txtEditCategory.text;
+    final response = await CrudHelper().editCategori(widget.category, name);
+    print(response.body);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const Home()),
+    );
   }
 
   @override
@@ -42,6 +59,7 @@ class _EditState extends State<Edit> {
               child: Column(
                 children: [
                   TextFormField(
+                    controller: txtEditCategory,
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.symmetric(
                           vertical: 10, horizontal: 17),
@@ -74,7 +92,9 @@ class _EditState extends State<Edit> {
                             backgroundColor: const Color(0xFF0E5E6F),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10))),
-                        onPressed: () {},
+                        onPressed: () {
+                          doEditCategory();
+                        },
                         child: const Text('Ubah')),
                   ),
                   const SizedBox(

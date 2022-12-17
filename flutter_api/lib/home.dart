@@ -43,12 +43,20 @@ class _HomeState extends State<Home> {
     print(response.body);
   }
 
+  doAddCategory() async {
+    final name = txtAddCategory.text;
+    final response = await HttpHelper().addCategory(name);
+    print(response.body);
+    Navigator.pushNamed(context, "/main");
+  }
+
   @override
   void initState() {
     super.initState();
     getKategori();
   }
 
+  final TextEditingController txtAddCategory = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,6 +97,7 @@ class _HomeState extends State<Home> {
                     Expanded(
                       flex: 2,
                       child: TextFormField(
+                        controller: txtAddCategory,
                         decoration: InputDecoration(
                           contentPadding: const EdgeInsets.symmetric(
                               vertical: 10, horizontal: 17),
@@ -122,7 +131,9 @@ class _HomeState extends State<Home> {
                               backgroundColor: Color(0xFF0E5E6F),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10))),
-                          onPressed: () {},
+                          onPressed: () {
+                            doAddCategory();
+                          },
                           child: const Text('Tambah')),
                     ),
                   ],

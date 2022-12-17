@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../models/category_models.dart';
 
 class HttpHelper {
   final String _baseUrl = 'http://192.168.1.15:8000/api/';
@@ -84,5 +85,56 @@ class HttpHelper {
     const key = 'token';
     final value = prefs.get(key) ?? 0;
     print('read : $value');
+  }
+
+  Future<Response> addCategory(String name) async {
+    final url = Uri.parse(_baseUrl + 'category');
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    const key = 'token';
+    final value = pref.get(key);
+    final token = value;
+    final body = {
+      'name': name,
+    };
+    final headers = {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ' + '$token',
+    };
+
+    final response = await post(url, body: body, headers: headers);
+    return response;
+  }
+
+  Future<Response> editCategori(Category category, String name) async {
+    final url = Uri.parse(_baseUrl + 'category/${category.id}');
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    const key = 'token';
+    final value = pref.get(key);
+    final token = value;
+    final body = {
+      'name': name,
+    };
+    final headers = {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ' + '$token',
+    };
+
+    final response = await put(url, body: body, headers: headers);
+    return response;
+  }
+
+  Future<Response> deleteCategori(Category category) async {
+    final url = Uri.parse(_baseUrl + 'category/${category.id}');
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    const key = 'token';
+    final value = pref.get(key);
+    final token = value;
+    final headers = {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ' + '$token',
+    };
+
+    final response = await delete(url, headers: headers);
+    return response;
   }
 }

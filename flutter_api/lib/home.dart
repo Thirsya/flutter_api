@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'main.dart';
 import 'models/category_models.dart';
 import 'network/api.dart';
+import 'network/crud_helper.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -17,15 +18,31 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   List listCategory = [];
   String name = '';
-
-  getKategori() async {
-    final response = await HttpHelper().getKategori();
-    var dataResponse = jsonDecode(response.body);
-    setState(() {
-      var listRespon = dataResponse['data'];
-      for (var i = 0; i < listRespon.length; i++) {
-        listCategory.add(Category.fromJson(listRespon[i]));
-      }
+  List<String> user = [];
+  List<Category> categories = [];
+  int selectedIndex = 0;
+  int currentPage = 1;
+  int lastPage = 0;
+  bool isLoading = true;
+  final ScrollController scrollController = ScrollController();
+  final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
+  // getKategori() async {
+  //   final response = await CrudHelper().getKategori();
+  //   var dataResponse = jsonDecode(response.body);
+  //   setState(() {
+  //     var listRespon = dataResponse['data'];
+  //     for(var i=0; i< listRespon.length; i++){
+  //       listCategory.add(Category.fromJson(listRespon[i]));
+  //     }
+  //   });
+  // }
+  fetchData() {
+    CrudHelper.getCategories(currentPage.toString()).then((resultList) {
+      setState(() {
+        categories = resultList[0];
+        lastPage = resultList[1];
+        isLoading = false;
+      });
     });
   }
 
@@ -47,13 +64,39 @@ class _HomeState extends State<Home> {
     final name = txtAddCategory.text;
     final response = await HttpHelper().addCategory(name);
     print(response.body);
-    Navigator.pushNamed(context, "/main");
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const Home()),
+    );
+  }
+
+  addMoreData() {
+    CrudHelper.getCategories(currentPage.toString()).then((resultList) {
+      setState(() {
+        categories.addAll(resultList[0]);
+        lastPage = resultList[1];
+        isLoading = false;
+      });
+    });
   }
 
   @override
   void initState() {
     super.initState();
-    getKategori();
+    scrollController.addListener(() {
+      if (scrollController.offset ==
+          scrollController.position.maxScrollExtent) {
+        if (currentPage < lastPage) {
+          setState(() {
+            isLoading = true;
+            currentPage++;
+            addMoreData();
+          });
+        }
+      }
+    });
+
+    fetchData();
   }
 
   final TextEditingController txtAddCategory = TextEditingController();
@@ -163,9 +206,10 @@ class _HomeState extends State<Home> {
                 ),
                 Expanded(
                     child: ListView.builder(
-                        itemCount: listCategory.length,
+                        controller: scrollController,
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        itemCount: categories.length,
                         itemBuilder: (context, index) {
-                          var kategori = listCategory[index];
                           return Dismissible(
                               key: UniqueKey(),
                               background: Container(
@@ -206,14 +250,17 @@ class _HomeState extends State<Home> {
                                   );
                                 } else {}
                               },
-                              child: ListTile(
-                                  title: Text(
-                                kategori.name,
-                                style: const TextStyle(
-                                    fontFamily: 'Nunito',
-                                    fontWeight: FontWeight.bold),
-                                textAlign: TextAlign.center,
-                              )));
+                              child: Container(
+                                height: 100,
+                                child: ListTile(
+                                    title: Text(
+                                  categories[index].name,
+                                  style: const TextStyle(
+                                      fontFamily: 'Nunito',
+                                      fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.center,
+                                )),
+                              ));
                         }))
               ],
             ),
